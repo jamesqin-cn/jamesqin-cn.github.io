@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>James Qin - Developer & Builder</title>
+    <meta name="description" content="James Qin 的个人主页 - 容器化、AI/ML、开源爱好者">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ========== CSS Variables ========== */
+        :root {
+            --primary: #2563eb;
+            --primary-light: #dbeafe;
+            --primary-dark: #1d4ed8;
+            --primary-glow: rgba(37, 99, 235, 0.25);
+            --accent: #6366f1;
+            --accent-light: #e0e7ff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-dark: #0f172a;
+            --bg-dark-card: #1e293b;
+            --border: #e2e8f0;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 40px rgba(0,0,0,0.1);
+            --shadow-glow: 0 0 30px var(--primary-glow);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
+            --font-sans: 'Inter', 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ========== Reset & Base ========== */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background: var(--bg-page);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { color: inherit; text-decoration: none; }
+        img { max-width: 100%; display: block; }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* ========== Navbar ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: var(--transition);
+            background: transparent;
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+            padding: 0.75rem 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .nav-logo .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+            border-radius: 1px;
+        }
+
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.25rem;
+            background: var(--text-primary);
+            color: white;
+            border-radius: var(--radius-sm);
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .mobile-toggle span {
+            width: 22px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        /* ========== Hero ========== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 5rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.06) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text { max-width: 560px; }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.375rem 1rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease 0.1s both;
+        }
+
+        .hero-title .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-desc {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease 0.2s both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px var(--primary-glow);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1.5px solid var(--border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-dark {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .btn-dark:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 2rem;
+            width: 100%;
+            max-width: 460px;
+            border: 1px solid var(--border);
+        }
+
+        .hero-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-card-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-light);
+        }
+
+        .hero-card-name { font-weight: 700; font-size: 1.25rem; }
+        .hero-card-handle { color: var(--text-muted); font-size: 0.875rem; }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-page);
+            border-radius: var(--radius-sm);
+        }
+
+        .hero-stat-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.125rem;
+        }
+
+        .hero-card-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .hero-card-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .hero-card-link:hover {
+            background: var(--bg-page);
+            color: var(--primary);
+        }
+
+        /* ========== Section Common ========== */
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 640px;
+            margin: 0 auto 3.5rem;
+        }
+
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.375rem;
+            padding: 0.25rem 0.875rem;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* ========== Skills Section ========== */
+        .skills-section { background: white; }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .skill-card {
+            padding: 1.75rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            border-color: transparent;
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .skill-card:hover::before { opacity: 1; }
+
+        .skill-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .skill-icon.blue { background: #dbeafe; }
+        .skill-icon.purple { background: #e0e7ff; }
+        .skill-icon.green { background: #dcfce7; }
+        .skill-icon.orange { background: #ffedd5; }
+        .skill-icon.pink { background: #fce7f3; }
+        .skill-icon.cyan { background: #cffafe; }
+
+        .skill-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.375rem;
+        }
+
+        .skill-desc {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.375rem;
+        }
+
+        .skill-tag {
+            padding: 0.2rem 0.6rem;
+            background: var(--bg-page);
+            color: var(--text-muted);
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* ========== Projects Section ========== */
+        .projects-section { background: var(--bg-page); }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 1.75rem;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .project-visibility {
+            padding: 0.15rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .project-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+            flex: 1;
+            margin-bottom: 1.25rem;
+        }
+
+        .project-footer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .project-lang {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .lang-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .lang-dot.js { background: #f1e05a; }
+        .lang-dot.py { background: #3572A5; }
+        .lang-dot.go { background: #00ADD8; }
+        .lang-dot.mk { background: #427819; }
+
+        .project-link {
+            margin-left: auto;
+            font-size: 0.85rem;
+            color: var(--primary);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .project-link:hover { opacity: 0.7; }
+
+        /* ========== Journey Section ========== */
+        .journey-section {
+            background: var(--bg-dark);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .journey-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .journey-section .section-tag {
+            background: rgba(37, 99, 235, 0.2);
+            color: #93bbfd;
+        }
+
+        .journey-section .section-desc { color: #94a3b8; }
+
+        .journey-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            position: relative;
+        }
+
+        .journey-step {
+            background: var(--bg-dark-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .journey-step:hover {
+            border-color: rgba(37, 99, 235, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(37, 99, 235, 0.15);
+        }
+
+        .journey-num {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+            margin: 0 auto 1.25rem;
+        }
+
+        .journey-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .journey-step h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .journey-step p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        /* ========== Contact Section ========== */
+        .contact-section { background: white; }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.25rem 1.5rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 1.25rem;
+            background: var(--bg-page);
+            flex-shrink: 0;
+        }
+
+        .contact-info { flex: 1; }
+
+        .contact-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.125rem;
+        }
+
+        .contact-value {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .contact-arrow {
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .contact-card:hover .contact-arrow { color: var(--primary); }
+
+        /* ========== Footer ========== */
+        .footer {
+            padding: 2.5rem 0;
+            background: var(--bg-dark);
+            color: #94a3b8;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copy { font-size: 0.85rem; }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover { color: white; }
+
+        /* ========== Animations ========== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========== Responsive ========== */
+        @media (max-width: 1024px) {
+            .hero-title { font-size: 2.75rem; }
+            .hero-content { gap: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .nav-cta { display: none; }
+            .mobile-toggle { display: flex; }
+
+            .nav-links.open {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 1.5rem;
+                box-shadow: var(--shadow-lg);
+                gap: 1rem;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-links.open .nav-cta {
+                display: inline-flex;
+                align-self: flex-start;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-text { max-width: 100%; }
+            .hero-title { font-size: 2.25rem; }
+            .hero-actions { justify-content: center; }
+            .hero-card { max-width: 100%; }
+
+            .section { padding: 4rem 0; }
+            .section-title { font-size: 1.75rem; }
+
+            .journey-steps { grid-template-columns: 1fr; }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 1.85rem; }
+            .hero-desc { font-size: 1rem; }
+            .hero-stats { grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+            .hero-stat-num { font-size: 1.2rem; }
+            .btn { padding: 0.625rem 1.25rem; font-size: 0.875rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Navbar ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">
+                <img src="https://avatars.githubusercontent.com/u/7760383?v=4" alt="James Qin" class="avatar">
+                <span>James Qin</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#skills">技术栈</a></li>
+                <li><a href="#projects">开源项目</a></li>
+                <li><a href="#journey">技术旅程</a></li>
+                <li><a href="#contact">联系我</a></li>
+                <li><a href="https://github.com/jamesqin-cn" target="_blank" rel="noopener" class="nav-cta">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    GitHub
+                </a></li>
+            </ul>
+            <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span class="dot"></span>
+                    开源贡献者 · Arctic Code Vault
+                </div>
+                <h1 class="hero-title">
+                    Hi, I'm <span class="highlight">James Qin</span><br>
+                    I build things.
+                </h1>
+                <p class="hero-desc">
+                    热衷于容器化技术、AI/ML 应用与开源项目。喜欢用代码解决实际问题，把复杂的事情变简单。
+                </p>
+                <div class="hero-actions">
+                    <a href="https://github.com/jamesqin-cn" target="_blank" rel="noopener" class="btn btn-primary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        查看 GitHub
+                    </a>
+                    <a href="#projects" class="btn btn-outline">浏览项目 ↓</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card">
+                    <div class="hero-card-header">
+                        <img src="https://avatars.githubusercontent.com/u/7760383?v=4" alt="James Qin" class="hero-card-avatar">
+                        <div>
+                            <div class="hero-card-name">jamesqin</div>
+                            <div class="hero-card-handle">@jamesqin-cn</div>
+                        </div>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">35</div>
+                            <div class="hero-stat-label">Repositories</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">162</div>
+                            <div class="hero-stat-label">Starred</div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">10</div>
+                            <div class="hero-stat-label">Followers</div>
+                        </div>
+                    </div>
+                    <div class="hero-card-links">
+                        <a href="https://hub.docker.com/u/cnjamesqin/" target="_blank" rel="noopener" class="hero-card-link">
+                            🐳 Docker Hub
+                        </a>
+                        <a href="https://pypi.org/user/jamesqin/" target="_blank" rel="noopener" class="hero-card-link">
+                            📦 PyPI
+                        </a>
+                        <span class="hero-card-link">📍 GuangDong, China</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Skills ===== -->
+    <section class="section skills-section" id="skills">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-tag">💡 技术栈</div>
+                <h2 class="section-title">我擅长的技术领域</h2>
+                <p class="section-desc">专注于容器化、AI/ML 和全栈开发，用最合适的技术解决实际问题</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card fade-in">
+                    <div class="skill-icon blue">🐳</div>
+                    <div class="skill-name">容器化 & DevOps</div>
+                    <div class="skill-desc">Docker 生态深度用户，擅长容器化部署、CI/CD 流水线搭建和基础设施编排</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Compose</span>
+                        <span class="skill-tag">CI/CD</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon purple">🤖</div>
+                    <div class="skill-name">AI / ML</div>
+                    <div class="skill-desc">构建 AI 模型服务化方案，OpenAI 兼容 API，模型部署与优化</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">LLM</span>
+                        <span class="skill-tag">Embedding</span>
+                        <span class="skill-tag">OpenAI API</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon green">🐍</div>
+                    <div class="skill-name">Python</div>
+                    <div class="skill-desc">Python 全栈开发，从脚本工具到 Web 服务，PyPI 包发布与维护</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">PyPI</span>
+                        <span class="skill-tag">FastAPI</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon orange">⚡</div>
+                    <div class="skill-name">JavaScript / Node.js</div>
+                    <div class="skill-desc">前端与 Node.js 后端开发，构建高性能 Web 应用和 API 服务</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">REST API</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon cyan">🔧</div>
+                    <div class="skill-name">Go</div>
+                    <div class="skill-desc">使用 Go 构建高性能后端服务和系统工具</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Go</span>
+                        <span class="skill-tag">WebSocket</span>
+                        <span class="skill-tag">CLI Tools</span>
+                    </div>
+                </div>
+                <div class="skill-card fade-in">
+                    <div class="skill-icon pink">🌐</div>
+                    <div class="skill-name">开源 & 社区</div>
+                    <div class="skill-desc">活跃的开源贡献者，GitHub Arctic Code Vault 贡献者，Pull Shark 徽章获得者</div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Open Source</span>
+                        <span class="skill-tag">GitHub</span>
+                        <span class="skill-tag">Community</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Projects ===== -->
+    <section class="section projects-section" id="projects">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-tag">🚀 开源项目</div>
+                <h2 class="section-title">精选项目</h2>
+                <p class="section-desc">一些我在 GitHub 上的代表性项目，涵盖 AI、容器化和开发工具</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-name">🧬 bge-small-zh-v1.5</div>
+                        <span class="project-visibility">Public</span>
+                    </div>
+                    <div class="project-desc">
+                        基于 bge-small-zh-v1.5 模型构建的支持 OpenAI 兼容的 API 接口，让中文向量模型的调用更加便捷
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-lang"><span class="lang-dot js"></span> JavaScript</div>
+                        <a href="https://github.com/jamesqin-cn/bge-small-zh-v1.5" target="_blank" rel="noopener" class="project-link">查看详情 →</a>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-name">🦞 myclaw</div>
+                        <span class="project-visibility">Public</span>
+                    </div>
+                    <div class="project-desc">
+                        一步一步教你写一只自己的小龙虾 — 从零开始构建 AI Agent 的完整教程
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-lang"><span class="lang-dot py"></span> Python</div>
+                        <a href="https://github.com/jamesqin-cn/myclaw" target="_blank" rel="noopener" class="project-link">查看详情 →</a>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-name">📅 claw-meeting</div>
+                        <span class="project-visibility">Public</span>
+                    </div>
+                    <div class="project-desc">
+                        Claw Meeting — 团队会议编排技能，用于 OpenClaw 技能系统的会议管理扩展
+                    </div>
+                    <div class="project-footer">
+                        <a href="https://github.com/jamesqin-cn/claw-meeting" target="_blank" rel="noopener" class="project-link">查看详情 →</a>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-name">🏎️ nvidia-free-ride</div>
+                        <span class="project-visibility">Public</span>
+                    </div>
+                    <div class="project-desc">
+                        自动从 build.nvidia.com 抓取最新免费模型列表，同步到 OpenClaw 配置，不错过任何免费资源
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-lang"><span class="lang-dot js"></span> JavaScript</div>
+                        <a href="https://github.com/jamesqin-cn/nvidia-free-ride" target="_blank" rel="noopener" class="project-link">查看详情 →</a>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-name">🔌 docker-exec-ws</div>
+                        <span class="project-visibility">Public</span>
+                    </div>
+                    <div class="project-desc">
+                        WebSocket server that serves the results of docker exec — 通过 WebSocket 远程执行 Docker 容器命令
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-lang"><span class="lang-dot go"></span> Go</div>
+                        <a href="https://github.com/jamesqin-cn/docker-exec-ws" target="_blank" rel="noopener" class="project-link">查看详情 →</a>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-header">
+                        <div class="project-name">📦 docker-pipec</div>
+                        <span class="project-visibility">Public</span>
+                    </div>
+                    <div class="project-desc">
+                        Dockerize for a container-based pipeline tool — 基于容器的流水线工具化方案
+                    </div>
+                    <div class="project-footer">
+                        <div class="project-lang"><span class="lang-dot mk"></span> Makefile</div>
+                        <a href="https://github.com/jamesqin-cn/docker-pipec" target="_blank" rel="noopener" class="project-link">查看详情 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Journey ===== -->
+    <section class="section journey-section" id="journey">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-tag">🗺️ 技术旅程</div>
+                <h2 class="section-title">我是怎么走到这里的</h2>
+                <p class="section-desc">从写第一行代码到构建开源项目，每一步都在探索更好的技术方案</p>
+            </div>
+            <div class="journey-steps">
+                <div class="journey-step fade-in">
+                    <div class="journey-num">1</div>
+                    <div class="journey-icon">💻</div>
+                    <h3>探索编程</h3>
+                    <p>从脚本和自动化开始，逐渐深入到全栈开发，用 Python 和 JavaScript 构建各种实用工具</p>
+                </div>
+                <div class="journey-step fade-in">
+                    <div class="journey-num">2</div>
+                    <div class="journey-icon">🐳</div>
+                    <h3>拥抱容器化</h3>
+                    <p>深入 Docker 生态，构建容器化部署方案和 CI/CD 流水线，让应用交付更高效可靠</p>
+                </div>
+                <div class="journey-step fade-in">
+                    <div class="journey-num">3</div>
+                    <div class="journey-icon">🤖</div>
+                    <h3>AI & 开源</h3>
+                    <p>投身 AI/ML 领域，构建模型服务化方案，积极参与开源社区，成为 Arctic Code Vault 贡献者</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section class="section contact-section" id="contact">
+        <div class="container">
+            <div class="section-header fade-in">
+                <div class="section-tag">📬 联系方式</div>
+                <h2 class="section-title">来找我聊聊</h2>
+                <p class="section-desc">无论是技术交流、项目合作还是随便聊聊，随时欢迎</p>
+            </div>
+            <div class="contact-grid">
+                <a href="https://github.com/jamesqin-cn" target="_blank" rel="noopener" class="contact-card fade-in">
+                    <div class="contact-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </div>
+                    <div class="contact-info">
+                        <div class="contact-label">GitHub</div>
+                        <div class="contact-value">@jamesqin-cn</div>
+                    </div>
+                    <span class="contact-arrow">→</span>
+                </a>
+                <a href="https://hub.docker.com/u/cnjamesqin/" target="_blank" rel="noopener" class="contact-card fade-in">
+                    <div class="contact-icon">🐳</div>
+                    <div class="contact-info">
+                        <div class="contact-label">Docker Hub</div>
+                        <div class="contact-value">cnjamesqin</div>
+                    </div>
+                    <span class="contact-arrow">→</span>
+                </a>
+                <a href="https://pypi.org/user/jamesqin/" target="_blank" rel="noopener" class="contact-card fade-in">
+                    <div class="contact-icon">📦</div>
+                    <div class="contact-info">
+                        <div class="contact-label">PyPI</div>
+                        <div class="contact-value">jamesqin</div>
+                    </div>
+                    <span class="contact-arrow">→</span>
+                </a>
+                <div class="contact-card fade-in">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-info">
+                        <div class="contact-label">所在地</div>
+                        <div class="contact-value">广东, 中国</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copy">© 2026 James Qin. Built with ❤️ and pure HTML.</div>
+            <ul class="footer-links">
+                <li><a href="https://github.com/jamesqin-cn" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://hub.docker.com/u/cnjamesqin/" target="_blank" rel="noopener">Docker Hub</a></li>
+                <li><a href="https://pypi.org/user/jamesqin/" target="_blank" rel="noopener">PyPI</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobileToggle');
+        const navLinks = document.getElementById('navLinks');
+        mobileToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Close mobile menu on link click
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => navLinks.classList.remove('open'));
+        });
+
+        // Scroll fade-in animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
